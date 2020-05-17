@@ -1,43 +1,27 @@
 import React, { Component } from "react";
 import NavBar from "./navbar";
 import Counters from "./counters";
+import { connect } from 'react-redux';
 
 class Main extends Component {
-  state = {
-    counters: [
-      { id: 1, value: 4 },
-      { id: 2, value: 0 },
-      { id: 3, value: 33 },
-      { id: 4, value: 0 }
-    ]
-  };
   handleIncrement = counterToIncrement => {
-    const clonedCounters = [...this.state.counters];
-    const index = clonedCounters.indexOf(counterToIncrement);
-    clonedCounters[index] = { ...counterToIncrement };
-    clonedCounters[index].value++;
-    this.setState({ counters: clonedCounters });
+    this.props.handleIncrement(counterToIncrement.id);
   };
   handleDelete = counterId => {
-    const counters = this.state.counters.filter(c => c.id !== counterId);
-    this.setState({ counters: counters });
+    this.props.handleDelete(counterId);
   };
   handleReset = () => {
-    const counters = this.state.counters.map(c => {
-      c.value = 0;
-      return c;
-    });
-    this.setState({ counters });
+    this.props.handleReset();
   };
   render() {
     return (
       <React.Fragment>
         <NavBar
-          totalCounters={this.state.counters.filter(e => e.value > 0).length}
+          totalCounters={this.props.counters.filter(e => e.value > 0).length}
         />
         <main className="container">
           <Counters
-            counters={this.state.counters}
+            counters={this.props.counters}
             onReset={this.handleReset}
             onIncrement={this.handleIncrement}
             onDelete={this.handleDelete}
@@ -48,4 +32,31 @@ class Main extends Component {
   }
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+  return { counters: state }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleIncrement: (id) => {
+      dispatch({
+        type: "handleIncrement",
+        payload: {id: id}
+      })
+    },
+    handleDelete: (id) => {
+      dispatch({
+        type: "handleDelete",
+        payload: {id: id}
+      })
+    },
+    handleReset: () => {
+      dispatch({
+        type: "handleReset",
+        payload: {}
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
