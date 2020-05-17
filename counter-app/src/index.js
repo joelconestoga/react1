@@ -5,6 +5,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import store from "./redux/store"
+import { Provider } from "react-redux";
 
 store.subscribe(() => {
   console.log("Store changed:", store.getState());
@@ -41,7 +42,9 @@ console.log("state ==> ", store.getState());
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
