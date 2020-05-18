@@ -6,24 +6,25 @@ import * as serviceWorker from "./serviceWorker";
 import "bootstrap/dist/css/bootstrap.css";
 import store from "./redux/store"
 import { Provider } from "react-redux";
+import { ADD_COUNTER } from "./redux/actionTypes"
 
 store.subscribe(() => {
   console.log("Store changed:", store.getState());
 });
 store.dispatch({
-  type: "addCounter",
+  type: ADD_COUNTER,
   payload: {id: 1, value: 4}
 });
 store.dispatch({
-  type: "addCounter",
+  type: ADD_COUNTER,
   payload: {id: 2, value: 0}
 });
 store.dispatch({
-  type: "addCounter",
+  type: ADD_COUNTER,
   payload: {id: 3, value: 33}
 });
 store.dispatch({
-  type: "addCounter",
+  type: ADD_COUNTER,
   payload: {id: 4, value: 0}
 });
 console.log("state ==> ", store.getState());
