@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBar from "./navbar";
 import Counters from "./counters";
 import { connect } from 'react-redux';
+import * as actions from '../redux/actions'
 
 class Main extends Component {
   handleIncrement = counterToIncrement => {
@@ -38,24 +39,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleIncrement: (id) => {
-      dispatch({
-        type: "handleIncrement",
-        payload: {id: id}
-      })
-    },
-    handleDelete: (id) => {
-      dispatch({
-        type: "handleDelete",
-        payload: {id: id}
-      })
-    },
-    handleReset: () => {
-      dispatch({
-        type: "handleReset",
-        payload: {}
-      })
-    }
+    handleIncrement: id => dispatch(actions.handleIncrement({id: id})),
+    handleDelete: id => dispatch(actions.handleDelete({id: id})),
+    handleReset: () => dispatch(actions.handleReset())
   }
 }
 
