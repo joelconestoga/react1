@@ -4,7 +4,9 @@ import { produce } from 'immer';
 export default function reducer(state = [], action) {
   switch(action.type) {
     case actions.ADD_COUNTER:
-      return [...state, {id: action.payload.id, value: action.payload.value}];
+      return produce(state, draftState => { 
+        draftState.push({ id: action.payload.id, value: action.payload.value }) 
+      })
     case actions.HANDLE_INCREMENT:
       return state.map(counter => counter.id === action.payload.id ? produce(counter, draftCounter => { draftCounter.value += 1 }) : counter);
     case actions.HANDLE_RESET:
